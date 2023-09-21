@@ -6,6 +6,9 @@ Unusual Python Browser/ Необычный Браузер на Python
 Первая вкладка (на момент alpha версии называется 'home') представляет из себя "рабочий стол" 
 на котором вы можете создавать окошки с браузерами, растягивать их и двигать по экрану.
 Это позволяет вести сразу несколько переписок, смотреть видео и параллельно что-то гуглить.
+# Так он будет выглядеть. Так он выглядит сейчас
+![Image alt](https://github.com/3whalesProg/Python-Browser/blob/main/soon.png)
+![Image alt](https://github.com/3whalesProg/Python-Browser/blob/main/screen.jpg)
 # Как запустить
 Создайте venv </br>
 pip install -r requirements.txt </br>
