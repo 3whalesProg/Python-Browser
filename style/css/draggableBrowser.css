@@ -1,0 +1,101 @@
+/*---------Главное окно. Влияет на цвет за TabBar'ом---------*/
+QMainWindow{
+    background-color: rgb(3,6,21);
+}
+
+
+/*-----Окно, внутри которого находится Браузер-------------*/
+DraggableWidget{
+    border: 1px solid black;
+    border-radius: 3px;
+}
+
+
+
+/*--------------Кнопки Back, foward, reload ------------------*/
+QPushButton{
+    background-color: transparent;
+    border-radius: 3px;
+    width: 25px;
+    height: 25px;
+    border: None;
+}
+
+QPushButton:hover{
+    background-color: #f2f2f2;
+    border: None;
+}
+
+
+
+/*-----------------------Поисковая строка--------------------*/
+QLineEdit{
+    background-color: white;
+    color: black;
+    padding: 4px 8px;
+    border-radius: 5px;
+    width: 10px;
+    placeholder: 'Введите запрос для поиска или веб-адрес';
+    font-size: 14px;
+    border: None;
+}
+
+QLineEdit:hover{
+    transition-delay: 5s; background-color: #f2f2f2;
+}
+
+QLineEdit:focus{
+    transition-delay: 5s; background-color: white; border: None;
+}
+
+
+/*---------------Кнопки в Tab-bar-----------------*/
+QToolButton{
+    border: none;
+    color: black;
+    margin-left: -4px;
+    margin-right: 2px;
+}
+
+
+/*------------------------Вкладки браузера---------------*/
+QTabBar::tab{
+    background-color: rgb(3,6,21);
+    color: white; padding: 4px 6px;
+    margin-left: 5px;
+    border-radius: 5px;
+}
+
+QTabBar::tab:hover{
+    transition-delay: 1;
+    background-color:rgb(31,33,46);
+}
+
+QTabBar::tab::selected {
+    background-color: rgb(72,77,101);
+    color: White;
+}
+
+QTabBar{
+    background-color: rgb(3,6,21);
+}
+
+QTabWidget::pane{
+    background-color: pink;
+    top: 5px;
+}
+
+QTabBar::close-button{
+    image: url('style/icons/close.png');
+    border-radius: 3px;
+}
+
+QTabBar::close-button:hover{
+    background-color: #2d2d2d;
+}
+
+
+
+
+
+
