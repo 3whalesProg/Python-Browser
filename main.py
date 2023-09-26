@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import *
-from PyQt6.QtCore import Qt, QSize
+from PyQt6.QtCore import Qt, QSize, QEvent
 from PyQt6.QtGui import QIcon, QKeyEvent, QPixmap
 from TabsControl import TabController
 
@@ -7,11 +7,18 @@ class TabbedBrowser(QMainWindow): #Класс управляет всеми вк
     def __init__(self):
         super().__init__()
 
-        #Подуключаем вкладки и открываем домашнюю
+        #Подключаем вкладки и открываем домашнюю
         self.tab_widget = TabController.TabsController()
         self.tab_widget.homeTab()
-
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowSystemMenuHint)
         tabsCounter = self.tab_widget.count()
+        self.setContentsMargins(2,2,2,2)
+        self.setMouseTracking(True)
+
+        #Кнопка для создания новых окон на домашней странице
+        self.newCube = QPushButton('Добавить окно')
+        self.newCube.clicked.connect(self.tab_widget.addCube)
+
 
         #Добавляем кнопку, для создания новых вкладок
         self.tab_widget.addNewTab = QToolButton()
@@ -32,7 +39,7 @@ class TabbedBrowser(QMainWindow): #Класс управляет всеми вк
         )
 
 
-        #Добавляем кнопку домашней вкладки\
+        #Добавляем кнопку домашней вкладки
         self.tab_widget.home = QToolButton()
         homeIcon = QPixmap('style/icons/home.png')
         scaledHomeIcon = homeIcon.scaled(QSize(13,13))
@@ -51,6 +58,7 @@ class TabbedBrowser(QMainWindow): #Класс управляет всеми вк
         central_widget = QWidget()
         layout = QVBoxLayout()
         layout.addWidget(self.tab_widget)
+        layout.addWidget(self.newCube)
         central_widget.setLayout(layout)
         layout.setContentsMargins(0, 4, 0, 0)
 
@@ -68,6 +76,31 @@ class TabbedBrowser(QMainWindow): #Класс управляет всеми вк
             self.setStyleSheet(style.read())
 
 
+    def mousePressEvent(self, event):
+        if event.buttons() == Qt.MouseButton.LeftButton:
+            self.offset = event.pos()
+            self.mouse_pressed = True
+        edge_distance = 10
+        pos = event.position()
+        if (
+                pos.x() < edge_distance or
+                pos.x() > self.width() - edge_distance or
+                pos.y() < edge_distance or
+                pos.y() > self.height() - edge_distance
+        ):
+            print("Клик на крае окна")
+
+    def mouseMoveEvent(self, event):
+        if self.mouse_pressed:
+            if self.offset is not None:
+                new_pos = self.mapToGlobal(event.pos() - self.offset)
+                self.move(new_pos)
+
+    def mouseReleaseEvent(self, event):
+        if event.button() == Qt.MouseButton.LeftButton:
+            self.mouse_pressed = False
+            self.offset = None
+
 
 
     def keyPressEvent(self, event: QKeyEvent):
@@ -80,6 +113,8 @@ class TabbedBrowser(QMainWindow): #Класс управляет всеми вк
             self.tab_widget.addCube()
         if event.modifiers() == Qt.KeyboardModifier.ControlModifier and event.key() == Qt.Key.Key_T: #Создание newTab
             self.tab_widget.newTab()
+
+
 
 
 

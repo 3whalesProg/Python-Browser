@@ -35,56 +35,12 @@ class TabsController(QTabWidget):
         self.setCurrentIndex(0)
     def homeTab(self):
         self.home_tab = QWidget()
-
-        self.new1 = draggbleItems.DraggableWidget(self.home_tab)
-        self.new1.move(-100000,-100000)
-
-        self.new2 = draggbleItems.DraggableWidget(self.home_tab)
-        self.new2.move(-100000, -100000)
-
-        self.new3 = draggbleItems.DraggableWidget(self.home_tab)
-        self.new3.move(-100000, -100000)
-
-        self.new4 = draggbleItems.DraggableWidget(self.home_tab)
-        self.new4.move(-100000, -100000)
-
-        self.new5 = draggbleItems.DraggableWidget(self.home_tab)
-        self.new5.move(-100000, -100000)
-
         self.insertTab(self.count()-1, self.home_tab, '')
         self.setCurrentIndex(self.count() - 1)
-    def addCube(self):
-        print(self.new1.pos())
-        if self.opened == 0:
-            self.opened += 1
-            self.new1.move(0,0)
 
-            self.new1.setLayout(draggbleItems.DraggbleWebEngine(self.new1))
-            print(self.opened)
-            return 0
-        if self.opened == 1:
-            self.opened += 1
-            self.new2.move(0,0)
-            self.new2.setLayout(draggbleItems.DraggbleWebEngine(self.new2))
-            print(self.opened)
-            return 0
-        if self.opened == 2:
-            self.opened += 1
-            self.new3.move(0,0)
+    def addCube(self): #Создание нового окна с браузером
+        self.setCurrentIndex(1)
+        self.webWindow = draggbleItems.DraggableWidget(self.home_tab)
+        self.webWindow.setLayout(draggbleItems.DraggbleWebEngine(self.webWindow))
+        self.setCurrentIndex(0)
 
-            self.new3.setLayout(draggbleItems.DraggbleWebEngine(self.new3))
-            print(self.opened)
-            return 0
-        if self.opened == 3:
-            self.opened += 1
-            self.new4.move(0,0)
-            self.new4.setLayout(draggbleItems.DraggbleWebEngine(self.new4))
-            print(self.opened)
-            return 0
-        if self.opened == 4:
-            self.opened += 1
-            self.new5.move(0,0)
-            self.new5.setLayout(draggbleItems.DraggbleWebEngine(self.new5))
-            print(self.opened)
-            return 0
-        else: print('Нельзя открыть больше одной вкладки'); return 0
