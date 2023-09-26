@@ -13,12 +13,34 @@ class TabbedBrowser(QMainWindow): #Класс управляет всеми вк
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowSystemMenuHint)
         tabsCounter = self.tab_widget.count()
         self.setContentsMargins(2,2,2,2)
-        self.setMouseTracking(True)
+        #self.setMouseTracking(True)
 
         #Кнопка для создания новых окон на домашней странице
         self.newCube = QPushButton('Добавить окно')
         self.newCube.clicked.connect(self.tab_widget.addCube)
 
+        #Кнопки закрытия/сворачиваения/полный экран
+        self.tab_widget.toolsWidget = QWidget(self)
+        self.tab_widget.toolsLayout = QHBoxLayout(self.tab_widget.toolsWidget)
+
+        self.tab_widget.closeBut = QToolButton()
+        self.tab_widget.closeBut.setIcon(QIcon("./style/icons/closeBrowser.png"))
+        self.tab_widget.closeBut.clicked.connect(self.close)
+
+        self.tab_widget.maximize = QToolButton()
+        self.tab_widget.maximize.setIcon(QIcon("./style/icons/maximize.png"))
+        self.tab_widget.maximize.clicked.connect(self.showMaximized)
+
+        self.tab_widget.minimize = QToolButton()
+        self.tab_widget.minimize.clicked.connect(self.showMinimized)
+        self.tab_widget.minimize.setIcon(QIcon("./style/icons/minimize.png"))
+
+        self.tab_widget.toolsLayout.addWidget(self.tab_widget.minimize)
+        self.tab_widget.toolsLayout.addWidget(self.tab_widget.maximize)
+        self.tab_widget.toolsLayout.addWidget(self.tab_widget.closeBut)
+        self.tab_widget.setCornerWidget(
+            self.tab_widget.toolsWidget, Qt.Corner.TopRightCorner
+        )
 
         #Добавляем кнопку, для создания новых вкладок
         self.tab_widget.addNewTab = QToolButton()
@@ -61,6 +83,7 @@ class TabbedBrowser(QMainWindow): #Класс управляет всеми вк
         layout.addWidget(self.newCube)
         central_widget.setLayout(layout)
         layout.setContentsMargins(0, 4, 0, 0)
+
 
         # Настройка окна
         self.setWindowTitle("Tabbed Browser")

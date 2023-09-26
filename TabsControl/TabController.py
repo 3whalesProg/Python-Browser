@@ -1,6 +1,8 @@
 from TabsControl import draggbleItems
-from PyQt6.QtWidgets import QTabWidget, QWidget, QVBoxLayout
+from PyQt6.QtWidgets import QTabWidget, QWidget, QVBoxLayout, QHBoxLayout, QToolButton
 from WebView import browser
+from PyQt6.QtGui import QIcon
+from PyQt6.QtCore import Qt
 class TabsController(QTabWidget):
     def __init__(self):
         super().__init__()
@@ -9,6 +11,9 @@ class TabsController(QTabWidget):
         self.setTabsClosable(True)
         self.tabCloseRequested.connect(self.closeTab) #Реагируем на закрытие вкладки
         self.currentChanged.connect(self.tabChanged)  # Реагируем на изменение вкладки
+
+
+
 
 
     #---------------Функции для работы с обычными вкладками---------------
