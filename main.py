@@ -81,7 +81,7 @@ class TabbedBrowser(QMainWindow): #Класс управляет всеми вк
 
 
         # Настройка окна
-        self.setWindowTitle("Tabbed Browser")
+        self.setWindowTitle("ModulePie Browser")
         self.setCentralWidget(central_widget)
         screen = QApplication.primaryScreen()
         screen_size = screen.size()
