@@ -52,6 +52,7 @@ class DraggbleWebEngine(QVBoxLayout):
         self.webview_drag = browser.BrowserView()
         self.addWidget(self.close_but)
         self.addWidget(self.webview_drag)
+        self.setContentsMargins(5,5,5,5)
 
     def remove_widget(self):
         self.webview_drag.close()

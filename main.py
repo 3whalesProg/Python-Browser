@@ -1,43 +1,38 @@
 from PyQt6.QtWidgets import *
-from PyQt6.QtCore import Qt, QSize, QEvent
+from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QIcon, QKeyEvent, QPixmap
 from TabsControl import TabController
+
 
 class TabbedBrowser(QMainWindow): #Класс управляет всеми вкладками
     def __init__(self):
         super().__init__()
 
         #Подключаем вкладки и открываем домашнюю
+        central_widget = QWidget()
+        # self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowSystemMenuHint)
+        layout = QHBoxLayout()
         self.tab_widget = TabController.TabsController()
         self.tab_widget.homeTab()
-        self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowSystemMenuHint)
         tabsCounter = self.tab_widget.count()
-        self.setContentsMargins(2,2,2,2)
-        #self.setMouseTracking(True)
 
-        #Кнопка для создания новых окон на домашней странице
-        self.newCube = QPushButton('Добавить окно')
-        self.newCube.clicked.connect(self.tab_widget.addCube)
 
-        #Кнопки закрытия/сворачиваения/полный экран
+        #Layout для toolBar
+        self.tools = QWidget()
+        self.layout2 = QVBoxLayout()
+        self.layout2.setContentsMargins(0,0,0,0)
+        self.tools.setLayout(self.layout2)
+
+
+        #Кнопка для открытия нового окна
         self.tab_widget.toolsWidget = QWidget(self)
         self.tab_widget.toolsLayout = QHBoxLayout(self.tab_widget.toolsWidget)
 
-        self.tab_widget.closeBut = QToolButton()
-        self.tab_widget.closeBut.setIcon(QIcon("./style/icons/closeBrowser.png"))
-        self.tab_widget.closeBut.clicked.connect(self.close)
+        self.tab_widget.addWindowBut = QToolButton()
+        self.tab_widget.addWindowBut.setIcon(QIcon("./style/icons/addWindow.png"))
+        self.tab_widget.addWindowBut.clicked.connect(self.tab_widget.addWindow)
 
-        self.tab_widget.maximize = QToolButton()
-        self.tab_widget.maximize.setIcon(QIcon("./style/icons/maximize.png"))
-        self.tab_widget.maximize.clicked.connect(self.showMaximized)
-
-        self.tab_widget.minimize = QToolButton()
-        self.tab_widget.minimize.clicked.connect(self.showMinimized)
-        self.tab_widget.minimize.setIcon(QIcon("./style/icons/minimize.png"))
-
-        self.tab_widget.toolsLayout.addWidget(self.tab_widget.minimize)
-        self.tab_widget.toolsLayout.addWidget(self.tab_widget.maximize)
-        self.tab_widget.toolsLayout.addWidget(self.tab_widget.closeBut)
+        self.tab_widget.toolsLayout.addWidget(self.tab_widget.addWindowBut)
         self.tab_widget.setCornerWidget(
             self.tab_widget.toolsWidget, Qt.Corner.TopRightCorner
         )
@@ -57,7 +52,7 @@ class TabbedBrowser(QMainWindow): #Класс управляет всеми вк
         )
         self.tab_widget.insertTab(tabsCounter, QWidget(), "")
         self.tab_widget.tabBar().setTabButton(
-            tabsCounter, QTabBar.ButtonPosition.RightSide, self.tab_widget.addNewTab #Полдний индекс для кнопки
+            tabsCounter, QTabBar.ButtonPosition.RightSide, self.tab_widget.addNewTab #Последний индекс для кнопки
         )
 
 
@@ -71,16 +66,16 @@ class TabbedBrowser(QMainWindow): #Класс управляет всеми вк
             '''border: none;
             color: black;
             margin-left: -4px;
-            margin-right: 2px;''')
+            margin-right: 2px;
+            ''')
         self.tab_widget.tabBar().setTabButton(
             0, QTabBar.ButtonPosition.RightSide, self.tab_widget.home) #0 индекс для домашней вкладки
 
 
-        #Контейнер длля tab_widget
-        central_widget = QWidget()
-        layout = QVBoxLayout()
+        #layout.addWidget(self.tools) #ToolBar
+
+        #Настройка центрального виджета
         layout.addWidget(self.tab_widget)
-        layout.addWidget(self.newCube)
         central_widget.setLayout(layout)
         layout.setContentsMargins(0, 4, 0, 0)
 
@@ -90,48 +85,24 @@ class TabbedBrowser(QMainWindow): #Класс управляет всеми вк
         self.setCentralWidget(central_widget)
         screen = QApplication.primaryScreen()
         screen_size = screen.size()
-        window_width = screen_size.width()
-        window_height = screen_size.height()
-        self.setGeometry(window_width // 7, window_height // 7, int(window_width * 0.7), int(window_height * 0.7))  # Окно размером 70% от экрана, распологается посередине
+        self.window_width = screen_size.width()
+        self.window_height = screen_size.height()
+        self.setGeometry(self.window_width // 7, self.window_height // 7, int(self.window_width * 0.7), int(self.window_height * 0.7))  # Окно размером 70% от экрана, распологается посередине
 
         #Подключаем стили
         with open('style/css/draggableBrowser.css', 'r') as style:
             self.setStyleSheet(style.read())
 
 
-    def mousePressEvent(self, event):
-        if event.buttons() == Qt.MouseButton.LeftButton:
-            self.offset = event.pos()
-            self.mouse_pressed = True
-        edge_distance = 10
-        pos = event.position()
-        if (
-                pos.x() < edge_distance or
-                pos.x() > self.width() - edge_distance or
-                pos.y() < edge_distance or
-                pos.y() > self.height() - edge_distance
-        ):
-            print("Клик на крае окна")
 
-    def mouseMoveEvent(self, event):
-        if self.mouse_pressed:
-            if self.offset is not None:
-                new_pos = self.mapToGlobal(event.pos() - self.offset)
-                self.move(new_pos)
-
-    def mouseReleaseEvent(self, event):
-        if event.button() == Qt.MouseButton.LeftButton:
-            self.mouse_pressed = False
-            self.offset = None
-
-
-
-    def keyPressEvent(self, event: QKeyEvent):
+    def keyPressEvent(self, event: QKeyEvent): #HotTabs
         if event.key() == Qt.Key.Key_F11:
             if self.isFullScreen():
                 self.showNormal()
             else:
                 self.showFullScreen()
+        if event.key() == Qt.Key.Key_F12:
+            self.toMaximized()
         if event.modifiers() == Qt.KeyboardModifier.AltModifier and event.key() == Qt.Key.Key_Q: #Создание окна на HomeTab
             self.tab_widget.addCube()
         if event.modifiers() == Qt.KeyboardModifier.ControlModifier and event.key() == Qt.Key.Key_T: #Создание newTab

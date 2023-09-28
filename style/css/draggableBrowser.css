@@ -3,7 +3,7 @@ QMainWindow{
     background-color: rgb(3,6,21);
 }
 
-
+/*background-color: ;*/
 /*-----Окно, внутри которого находится Браузер-------------*/
 DraggableWidget{
     border: 1px solid black;
@@ -26,7 +26,9 @@ QPushButton:hover{
     border: None;
 }
 
-
+home_tab{
+    background-color: black;
+}
 
 /*-----------------------Поисковая строка--------------------*/
 QLineEdit{
@@ -75,13 +77,13 @@ QTabBar::tab::selected {
     background-color: rgb(72,77,101);
     color: White;
 }
-
+/*3,6,21*/
 QTabBar{
     background-color: rgb(3,6,21);
 }
 
 QTabWidget::pane{
-    background-color: pink;
+    background-color: black;
     top: 5px;
 }
 
