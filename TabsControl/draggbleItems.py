@@ -49,7 +49,7 @@ class DraggbleWebEngine(QVBoxLayout):
     def __init__(self, parent):
         super().__init__()
         self.box = parent
-        closeBut = QPixmap('./style/icons/closeWindow.svg')
+        closeBut = QPixmap('./style/icons/closeWindow.png')
         scaled_closeBut = closeBut.scaled(QSize(13,13))
         self.close_but = QToolButton()
         self.close_but.setIcon(QIcon(scaled_closeBut))
