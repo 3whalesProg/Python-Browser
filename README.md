@@ -5,9 +5,9 @@ ModulePie Browser/ Браузер на Python. Реализованы станд
 Первая вкладка представляет из себя "рабочий стол" 
 на котором вы можете создавать окошки с браузерами, растягивать их и двигать по экрану.
 Это позволяет вести сразу несколько переписок, смотреть видео и параллельно что-то гуглить.
-# Так он будет выглядеть. Так он выглядит сейчас
-![Image alt](https://github.com/3whalesProg/Python-Browser/blob/main/preview/soon.png)
+# HomeTab/Обычная вкладка
 ![Image alt](https://github.com/3whalesProg/Python-Browser/blob/main/preview/screen.jpg)
+![Image alt](https://github.com/3whalesProg/Python-Browser/blob/main/preview/soon.jpg)
 # Как запустить
 Создайте venv </br>
 pip install -r requirements.txt </br>
