@@ -10,6 +10,7 @@ class UrlNavigationWidget(QWidget):
         layout = QHBoxLayout()
 
         self.url_edit = QLineEdit(self)
+        self.url_edit.setStyleSheet("background-color:white")
         back_button = QPushButton()
         back_button.setIcon(QIcon(self.get_resized_icon('style/icons/back.png', 12, 12)))
         back_button.clicked.connect(self.browser_view.back)

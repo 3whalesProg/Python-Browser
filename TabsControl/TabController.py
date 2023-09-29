@@ -1,8 +1,8 @@
 from TabsControl import draggbleItems
-from PyQt6.QtWidgets import QTabWidget, QWidget, QVBoxLayout, QHBoxLayout, QToolButton
+from PyQt6.QtWidgets import QTabWidget, QWidget, QVBoxLayout
 from WebView import browser
-from PyQt6.QtGui import QIcon
-from PyQt6.QtCore import Qt
+
+
 class TabsController(QTabWidget):
     def __init__(self):
         super().__init__()
@@ -43,23 +43,24 @@ class TabsController(QTabWidget):
         self.home_tab = QWidget()
         layout = QVBoxLayout()
         self.home_tab.setLayout(layout)
-
+        self.home_tab.setStyleSheet('border-image: url(./TabsControl/wallpaper2.jpg) 2 2 2 2 ;')
+        #self.home_tab.setStyleSheet('background-color: rgb(3,6,21)')
         self.insertTab(self.count()-1, self.home_tab, '')
         self.setCurrentIndex(self.count() - 1)
 
 
     def addWindow(self): #Создание нового окна с браузером
-        currenWidget = self.currentWidget()
-        currentIndex = self.currentIndex()
-        if currentIndex == 0:
-            self.setCurrentIndex(1)
-            self.webWindow2 = draggbleItems.DraggableWidget(currenWidget)
-            self.webWindow2.setLayout(draggbleItems.DraggbleWebEngine(self.webWindow2))
-            self.setCurrentIndex(currentIndex)
-        else:
-            self.setCurrentIndex(0)
-            self.webWindow2 = draggbleItems.DraggableWidget(currenWidget)
-            self.webWindow2.setLayout(draggbleItems.DraggbleWebEngine(self.webWindow2))
-            self.setCurrentIndex(currentIndex)
+            currenWidget = self.currentWidget()
+            currentIndex = self.currentIndex()
+            if currentIndex == 0:
+                self.setCurrentIndex(1)
+                self.webWindow2 = draggbleItems.DraggableWidget(currenWidget)
+                self.webWindow2.setLayout(draggbleItems.DraggbleWebEngine(self.webWindow2))
+                self.setCurrentIndex(currentIndex)
+            else:
+                self.setCurrentIndex(0)
+                self.webWindow2 = draggbleItems.DraggableWidget(currenWidget)
+                self.webWindow2.setLayout(draggbleItems.DraggbleWebEngine(self.webWindow2))
+                self.setCurrentIndex(currentIndex)
 
 

@@ -83,6 +83,7 @@ class TabbedBrowser(QMainWindow): #Класс управляет всеми вк
         # Настройка окна
         self.setWindowTitle("ModulePie Browser")
         self.setCentralWidget(central_widget)
+        #central_widget.setStyleSheet('border-image: url(./TabsControl/wallpaper.jpg) 0 0 0 0 stretch stretch;')
         screen = QApplication.primaryScreen()
         screen_size = screen.size()
         self.window_width = screen_size.width()
@@ -102,9 +103,9 @@ class TabbedBrowser(QMainWindow): #Класс управляет всеми вк
             else:
                 self.showFullScreen()
         if event.key() == Qt.Key.Key_F12:
-            self.toMaximized()
+            self.showMaximized()
         if event.modifiers() == Qt.KeyboardModifier.AltModifier and event.key() == Qt.Key.Key_Q: #Создание окна на HomeTab
-            self.tab_widget.addCube()
+            self.tab_widget.addWindow()
         if event.modifiers() == Qt.KeyboardModifier.ControlModifier and event.key() == Qt.Key.Key_T: #Создание newTab
             self.tab_widget.newTab()
 

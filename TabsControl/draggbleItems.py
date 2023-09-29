@@ -1,6 +1,7 @@
 from PyQt6.QtWidgets import *
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QSize
 from WebView import browser
+from PyQt6.QtGui import QPixmap, QIcon
 
 class DraggableWidget(QFrame):
     def __init__(self, parent=None):
@@ -11,6 +12,7 @@ class DraggableWidget(QFrame):
         self.right_mouse_pressed = False
         self.pressed = False
         self.offset = None
+        self.setStyleSheet('border-image: none;')
 
     def mousePressEvent(self, event):
         if event.buttons() == Qt.MouseButton.LeftButton:
@@ -47,8 +49,13 @@ class DraggbleWebEngine(QVBoxLayout):
     def __init__(self, parent):
         super().__init__()
         self.box = parent
-        self.close_but = QPushButton('закрыть')
+        closeBut = QPixmap('./style/icons/closeWindow.svg')
+        scaled_closeBut = closeBut.scaled(QSize(13,13))
+        self.close_but = QToolButton()
+        self.close_but.setIcon(QIcon(scaled_closeBut))
+        self.close_but.setMinimumSize(13, 13)
         self.close_but.clicked.connect(self.remove_widget)
+        self.close_but.setStyleSheet('margin-left: 2px; ')
         self.webview_drag = browser.BrowserView()
         self.addWidget(self.close_but)
         self.addWidget(self.webview_drag)
